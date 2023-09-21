@@ -14,6 +14,17 @@ export const useInventoryStore = defineStore('inventory', {
     removeItem(index) {
       this.items.splice(index, 1);
     },
+
+    saveState() {
+      const state = JSON.stringify(this.$state);
+      localStorage.setItem('inventoryState', state);
+    },
+    restoreState() {
+      const storedState = localStorage.getItem('inventoryState');
+      if (storedState) {
+        this.$state = JSON.parse(storedState);
+      }
+    },
   },
 });
 
