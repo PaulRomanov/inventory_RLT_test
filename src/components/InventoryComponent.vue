@@ -17,12 +17,19 @@ export default {
   components: {
     InventoryItem,
   },
-  created() {},
   data() {
-    return {};
+    return {
+      activeItem: null, 
+    };
   },
-  props: {},
-  methods: {},
+  methods: {
+    closeActiveItem() {
+      if (this.activeItem) {
+        this.activeItem.showDescription = false;
+        this.activeItem = null;
+      }
+    },
+  },
 };
 </script>
 

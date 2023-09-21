@@ -34,7 +34,7 @@ export default {
 
 .content {
   display: flex;
-  justify-content: space-between; 
   align-items: center; 
+  height: 90%;
 }
 </style>
