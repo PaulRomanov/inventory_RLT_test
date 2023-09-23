@@ -27,7 +27,6 @@ export default {
 .wrapper {
   display: flex;
   flex-direction: column; 
-  padding: 20px;
   background-color: #f0f0f0;
   height: 100vh; 
 }
@@ -35,6 +34,6 @@ export default {
 .content {
   display: flex;
   align-items: center; 
-  height: 90%;
+  height: 100%;
 }
 </style>

@@ -1,21 +1,27 @@
 <template>
-  <div class="wrapper">SkeletonComponent</div>
+  <div class="wrapper">
+  <img src="../assets/Img.png" alt="img.png">
+  
+  </div>
 </template>
 
 <script>
 export default {
   name: "SkeletonComponent",
-  created() {},
-  data() {
-    return {};
-  },
-  props: {},
-  methods: {},
+
 };
 </script>
 
 <style lang="scss" scoped>
 .wrapper{
-  background-color: black;
+  background-color: #262626;
+  border-radius: 2%;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  margin-right: 20px;
+  height: 100%;
+  padding: 10px;
+  box-sizing: border-box;
 }
 </style>

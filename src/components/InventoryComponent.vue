@@ -1,12 +1,34 @@
 <template>
   <div class="inventory">
-    <button @click="addNewItem">Добавить новый предмет</button>
     <div class="grid">
       <div v-for="(item, index) in inventoryGrid" :key="index" class="cell">
-        <InventoryItem :item="item" @remove-item="removeItem(index)" v-if="item" />
+        <div :class="item ? item.colorClass : 'empty-cell'" v-if="item">
+          <InventoryItem :item="item" @remove-item="removeItem(index)">
+            <template v-slot:styleSlot>
+              <div class="wrapper_color-block">
+                <div
+                  class="color-block color-block-background"
+                  :class="item ? item.colorClass : 'transparent-color'"
+                ></div>
+                <div
+                  class="color-block"
+                  :class="item ? item.colorClass : 'transparent-color'"
+                ></div>
+              </div>
+            </template>
+          </InventoryItem>
+        </div>
         <div class="empty-cell" v-else></div>
       </div>
     </div>
+    <button
+      @click="addNewItem"
+      class="add-item-button"
+      :class="{ 'disabled-button': inventoryFull }"
+      :disabled="inventoryFull"
+    >
+      Добавить новый предмет
+    </button>
   </div>
 </template>
 
@@ -43,12 +65,23 @@ export default {
 
       return grid;
     },
+    inventoryFull() {
+      // Проверяем, заполнен ли инвентарь
+      return this.inventoryGrid.filter((item) => item !== null).length >= 25;
+    },
   },
   methods: {
     addNewItem() {
-      // Создание нового предмета и добавление его в инвентарь
-      const newItem = { name: "Новый предмет", description: "Описание нового предмета" };
-      this.inventoryStore.addItem(newItem);
+      // Проверяем, заполнен ли инвентарь перед добавлением нового предмета
+      if (!this.inventoryFull) {
+        // Создание нового предмета и добавление его в инвентарь
+        const newItem = {
+          name: "Новый предмет",
+          description: "Описание нового предмета",
+          colorClass: `item-color-${Math.floor(Math.random() * 3) + 1}`, // Генерация случайного класса цвета
+        };
+        this.inventoryStore.addItem(newItem);
+      }
     },
     removeItem(index) {
       // Удаляем предмет только, если он существует в инвентаре
@@ -68,11 +101,34 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.add-item-button {
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  width: 200px;
+  transition: background-color 0.3s ease;
+}
+
+.disabled-button {
+  background-color: #ccc;
+  cursor: not-allowed;
+  pointer-events: none;
+}
 .inventory {
   display: flex;
+  align-items: center;
+  justify-content: center;
   flex-wrap: wrap;
-  width: 400px;
+  flex-direction: column;
+  padding: 10px;
+  width: 100%;
   border: 1px solid #000;
+  background-color: #262626;
+  box-sizing: border-box;
+  border-radius: 2%;
 }
 
 .row {
@@ -90,22 +146,49 @@ export default {
 .grid {
   display: grid;
   grid-template-columns: repeat(5, 1fr);
-  grid-gap: 10px;
+  grid-gap: 50px;
+  margin-bottom: 80px;
 }
 
 .cell {
-  width: 60px; 
-  height: 60px; 
-  border: 1px solid #ccc;
+  width: 100px;
+  height: 100px;
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
 .empty-cell {
-  width: 60px; 
-  height: 60px;
-  border: 1px solid #ccc;
+  width: 100px;
+  height: 100px;
+}
+.item-color-1 {
+  background-color: #AA9765;
+}
+
+.item-color-2 {
+  background-color: #7FAA65;
+}
+
+.item-color-3 {
+  background-color: #656CAA;
+}
+.wrapper_color-block {
+  position: relative;
+  width: 100px;
+  height: 100px;
+}
+.color-block {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+}
+.color-block-background {
+  position: absolute;
+  top: -8px;
+  left: 8px;
+  opacity: 0.35;
+  width: 100%;
+  height: 100%;
 }
 </style>
-

@@ -5,17 +5,13 @@
 <script>
 export default {
   name: "Skeleton2Component",
-  created() {},
-  data() {
-    return {};
-  },
-  props: {},
-  methods: {},
 };
 </script>
 
 <style lang="scss" scoped>
 .wrapper{
-  background-color:aqua;
+  background-color: #262626;
+    border-radius: 2%;
+    margin-top: 10px;
 }
 </style>

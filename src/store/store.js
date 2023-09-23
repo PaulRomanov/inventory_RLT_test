@@ -6,9 +6,9 @@ export const pinia = createPinia();
 export const useInventoryStore = defineStore('inventory', {
   state: () => ({
     items: [
-      { name: "Item 1", description: "Описание предмета 1" },
-      { name: "Item 2", description: "Описание предмета 2" },
-      { name: "Item 3", description: "Описание предмета 3" }
+      { name: "Item 1", description: "Описание предмета 1", colorClass: "item-color-1" },
+      { name: "Item 2", description: "Описание предмета 2", colorClass: "item-color-2" },
+      { name: "Item 3", description: "Описание предмета 3", colorClass: "item-color-3" }
     ],
   }),
   actions: {
