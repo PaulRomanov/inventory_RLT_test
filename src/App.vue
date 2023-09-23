@@ -34,6 +34,5 @@ export default {
 .content {
   display: flex;
   align-items: center; 
-  height: 100%;
 }
 </style>

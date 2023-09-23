@@ -99,7 +99,7 @@ export default {
 
 .show-description {
   width: 40%;
-  height: 74%;
+  height: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
