@@ -1,7 +1,7 @@
 import { createApp } from 'vue';
 import App from './App.vue';
 import { pinia } from './store/store'; 
-import { useInventoryStore } from './store/store';
+import { useInventoryStore } from '@/store/store';
 
 const app = createApp(App);
 

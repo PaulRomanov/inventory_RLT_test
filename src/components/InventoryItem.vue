@@ -1,8 +1,8 @@
 <template>
   <div class="inventory-item" @click="toggleDescription">
-    <div class="description" :class="{ 'show-description': showDescription }">
+    <div class="description" :class="{ 'show-description': showDescription }" @click.stop="preventClose">
       <span class="close-button" @click.stop="closeDescription">&times;</span>
-      <p>{{ description }}</p>
+      <p v-if="item">{{ item.description }}</p>
       <button @click.stop="removeItem">Удалить</button>
     </div>
   </div>
@@ -11,6 +11,9 @@
 <script>
 export default {
   name: "InventoryItem",
+  props: {
+    item: Object,
+  },
   data() {
     return {
       showDescription: false,
@@ -31,12 +34,16 @@ export default {
       this.$parent.closeActiveItem();
     },
     removeItem() {
-      this.$parent.closeActiveItem();
+      this.closeDescription(); 
       this.$emit("remove-item");
+    },
+    preventClose(event) {
+      event.stopPropagation();
     },
   },
 };
 </script>
+
 
 <style lang="scss" scoped>
 .inventory-item {

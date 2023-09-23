@@ -5,7 +5,11 @@ export const pinia = createPinia();
 
 export const useInventoryStore = defineStore('inventory', {
   state: () => ({
-    items: [],
+    items: [
+      { name: "Item 1", description: "Описание предмета 1" },
+      { name: "Item 2", description: "Описание предмета 2" },
+      { name: "Item 3", description: "Описание предмета 3" }
+    ],
   }),
   actions: {
     addItem(item) {
@@ -14,7 +18,6 @@ export const useInventoryStore = defineStore('inventory', {
     removeItem(index) {
       this.items.splice(index, 1);
     },
-
     saveState() {
       const state = JSON.stringify(this.$state);
       localStorage.setItem('inventoryState', state);
@@ -22,9 +25,12 @@ export const useInventoryStore = defineStore('inventory', {
     restoreState() {
       const storedState = localStorage.getItem('inventoryState');
       if (storedState) {
-        this.$state = JSON.parse(storedState);
+        try {
+          this.$state = JSON.parse(storedState);
+        } catch (error) {
+          console.error('Error parsing stored state:', error);
+        }
       }
     },
   },
 });
-
