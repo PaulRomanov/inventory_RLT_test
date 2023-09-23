@@ -1,4 +1,5 @@
-# inventory_RLT_test
+# [рабочая версия приложения](https://inventory-rlt-test.vercel.app/)
+
 
 Уважаемая команда разработчиков,   
 
