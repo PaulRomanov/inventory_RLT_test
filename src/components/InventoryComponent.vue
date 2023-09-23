@@ -1,7 +1,16 @@
 <template>
   <div class="inventory">
     <div class="grid">
-      <div v-for="(item, index) in inventoryGrid" :key="index" class="cell">
+      <div
+      v-for="(item, index) in inventoryGrid"
+        :key="index"
+        class="cell"
+        @dragstart="startDragging(item)"
+        @dragend="endDragging"
+        @dragover.prevent
+        @drop="moveItemTo(index)"
+        draggable
+      >
         <div :class="item ? item.colorClass : 'empty-cell'" v-if="item">
           <InventoryItem :item="item" @remove-item="removeItem(index)">
             <template v-slot:styleSlot>
@@ -45,6 +54,7 @@ export default {
     return {
       activeItem: null,
       inventoryStore: useInventoryStore(),
+      draggingItem: null,
     };
   },
   computed: {
@@ -96,6 +106,30 @@ export default {
         this.activeItem = null;
       }
     },
+    // Обработка начала перетаскивания элемента
+    startDragging(item) {
+      this.draggingItem = item;
+    },
+
+    // Обработка окончания перетаскивания элемента
+    endDragging() {
+      this.draggingItem = null;
+    },
+
+    // Обработка перемещения элемента в новое место
+    moveItemTo(index) {
+    if (this.draggingItem) {
+      // Удаляем перетаскиваемый элемент из старого места
+      const oldIndex = this.inventoryStore.items.indexOf(this.draggingItem);
+      this.inventoryStore.items.splice(oldIndex, 1);
+
+      // Вставляем его в новое место
+      this.inventoryStore.items.splice(index, 0, this.draggingItem);
+
+      // Завершаем перетаскивание
+      this.endDragging();
+    }
+  },
   },
 };
 </script>
@@ -163,15 +197,15 @@ export default {
   height: 100px;
 }
 .item-color-1 {
-  background-color: #AA9765;
+  background-color: #aa9765;
 }
 
 .item-color-2 {
-  background-color: #7FAA65;
+  background-color: #7faa65;
 }
 
 .item-color-3 {
-  background-color: #656CAA;
+  background-color: #656caa;
 }
 .wrapper_color-block {
   position: relative;
@@ -190,5 +224,12 @@ export default {
   opacity: 0.35;
   width: 100%;
   height: 100%;
+}
+.cell[draggable="true"] {
+  cursor: grab;
+}
+
+.cell[draggable="true"]:hover {
+  border: 2px dashed #007bff;
 }
 </style>
